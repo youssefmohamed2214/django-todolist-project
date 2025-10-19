@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - TodoList{% endblock %}
+
+{% block form_title %}Welcome Back! 👋{% endblock %}
+
+{% block submit %}
+<button type="submit" class="btn btn-primary">
+    Login
+</button>
+{% endblock %}
+
+{% block form_link %}
+    <p class="form-link">
+        Don't have an account? <a href="{% url 'register' %}">Sign up here</a>
+    </p>
+{% endblock %}

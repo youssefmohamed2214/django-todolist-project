@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Settings - TodoList{% endblock %}
+
+{% block form_title %}Update Your Profile ⚙️{% endblock %}
+
+{% block submit %}
+<button type="submit" class="btn btn-primary">
+    Update Profile
+</button>
+{% endblock %}
+
+
+{% block additional_content %}
+    <!-- Current User Info Display -->
+    <div class="current-info container">
+        <h3>Current Information</h3>
+        <div class="current-info-grid">
+            <div class="current-info-item">
+                <span class="current-info-label">Username:</span>
+                <span class="current-info-value">{{ user.username }}</span>
+            </div>
+            <div class="current-info-item">
+                <span class="current-info-label">Email:</span>
+                <span class="current-info-value">{{ user.email }}</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

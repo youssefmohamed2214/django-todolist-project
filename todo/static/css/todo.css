@@ -1,0 +1,374 @@
+/* General container for the todo page */
+.todo-container {
+width: 100%;
+max-width: 760px;
+margin: 2rem auto;
+padding: 0 1rem;
+}
+
+/* Add Task Form Section */
+.add-task-form {
+background: var(--bg-elevated);
+padding: 2.5rem;
+border-radius: var(--radius);
+box-shadow: var(--shadow-md);
+margin-bottom: 2.5rem;
+border: 1px solid var(--border);
+}
+
+.add-task-form h2 {
+margin-top: 0;
+text-align: center;
+font-size: 1.75rem;
+margin-bottom: 1.75rem;
+color: var(--text-primary);
+font-weight: 700;
+}
+
+/* Form fields styling */
+.add-task-form .form-group {
+margin-bottom: 1.5rem;
+}
+
+.add-task-form label {
+display: block;
+font-weight: 600;
+margin-bottom: 0.5rem;
+color: var(--text-primary);
+}
+
+.add-task-form input[type="text"] {
+width: 100%;
+padding: 0.75rem 1rem;
+border: 1px solid var(--border);
+border-radius: 8px;
+font-size: 1rem;
+transition: border-color 0.2s ease;
+}
+
+.add-task-form input[type="text"]:focus {
+border-color: var(--brand);
+outline: none;
+box-shadow: 0 0 0 3px rgba(79, 138, 239, 0.2);
+}
+
+/* File input styling */
+.add-task-form input[type="file"] {
+width: 100%;
+padding: 0.75rem;
+background-color: #f9fafb;
+border: 2px dashed var(--brand);
+border-radius: 8px;
+cursor: pointer;
+position: relative;
+transition: all 0.2s ease;
+}
+
+.add-task-form input[type="file"]:hover {
+background-color: rgba(79, 138, 239, 0.05);
+}
+
+.add-task-form input[type="file"]::file-selector-button {
+background-color: var(--brand);
+color: white;
+padding: 0.5rem 1rem;
+border: none;
+border-radius: 6px;
+margin-right: 1rem;
+cursor: pointer;
+font-weight: 600;
+transition: background-color 0.2s ease;
+}
+
+.add-task-form input[type="file"]::file-selector-button:hover {
+background-color: var(--brand-hover);
+}
+
+/* Add button styling */
+.add-task-form button[type="submit"] {
+display: block;
+width: 100%;
+max-width: 200px;
+margin: 1.5rem auto 0;
+padding: 0.75rem 1.5rem;
+background-color: var(--brand);
+color: white;
+border: none;
+border-radius: 8px;
+font-weight: 600;
+cursor: pointer;
+transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.add-task-form button[type="submit"]:hover {
+background-color: var(--brand-hover);
+}
+
+.add-task-form button[type="submit"]:active {
+transform: scale(0.98);
+}
+
+/* Task List Container */
+.tasks-container {
+display: grid;
+gap: 1.5rem;
+}
+
+/* Empty state styling */
+.tasks-container .empty-state {
+border: 2px dashed #e5e7eb;
+border-radius: var(--radius);
+padding: 3rem 2rem;
+text-align: center;
+background-color: rgba(255, 255, 255, 0.7);
+}
+
+.tasks-container .empty-state img {
+width: 80px;
+height: 80px;
+margin-bottom: 1.5rem;
+}
+
+.tasks-container .empty-state h3 {
+font-size: 1.5rem;
+font-weight: 700;
+margin: 0 0 0.75rem;
+color: var(--text-primary);
+}
+
+.tasks-container .empty-state p {
+font-size: 1.1rem;
+color: var(--text-secondary);
+max-width: 400px;
+margin: 0 auto;
+}
+
+
+.task-card {
+background: var(--bg-elevated);
+border-radius: var(--radius);
+box-shadow: var(--shadow-md);
+overflow: hidden; 
+transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.task-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 12px 28px rgba(16, 24, 40, 0.1);
+}
+
+.task-header {
+padding: 1rem 1.25rem;
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-bottom: 1px solid var(--border);
+}
+
+.task-title {
+margin: 0;
+font-size: 1.2rem;
+font-weight: 600;
+}
+
+/* Styles for the task's status (Pending/Completed) */
+.task-status {
+padding: 0.25rem 0.6rem;
+border-radius: 20px;
+font-size: 0.8rem;
+font-weight: 600;
+}
+.task-status.pending {
+background-color: #fffbeb;
+color: #b45309;
+}
+.task-status.completed {
+background-color: var(--success-bg);
+color: var(--success-fg);
+}
+.task-card.completed .task-title {
+text-decoration: line-through;
+color: var(--text-secondary);
+}
+
+/* Task Image */
+.task-image {
+width: 100%;
+height: 200px;
+object-fit: cover;
+display: block;
+}
+.no-image-placeholder {
+width: 100%;
+height: 120px;
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: #f3f4f6;
+color: var(--text-secondary);
+font-style: italic;
+}
+
+/* Action buttons at the bottom of the card */
+.task-actions {
+padding: 1rem 1.25rem;
+background-color: #f9fafb;
+display: flex;
+gap: 0.75rem;
+justify-content: flex-end;
+}
+
+.btn-sm { /* Smaller buttons for cards */
+padding: 0.5rem 1rem;
+font-size: 0.875rem;
+border-radius: 8px;
+box-shadow: none;
+width: auto;
+margin-top: 0;
+}
+
+.btn-success { background-color: #10b981; }
+.btn-success:hover { background-color: #059669; }
+
+.btn-warning { background-color: #f59e0b; }
+.btn-warning:hover { background-color: #d97706; }
+
+.btn-danger { background-color: #ef4444; }
+.btn-danger:hover { background-color: #dc2626; }
+
+/* Empty state when no tasks are present */
+.empty-state {
+text-align: center;
+padding: 4rem 2rem;
+background: var(--bg-elevated);
+border-radius: var(--radius);
+border: 2px dashed var(--border);
+}
+.empty-state-icon { font-size: 3rem; }
+.empty-state h3 { margin: 1rem 0 0.5rem; }
+.empty-state p { color: var(--text-secondary); max-width: 300px; margin: 0 auto; }
+
+/* File Input Styling for Edit Task */
+.file-input {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #f9fafb;
+    border: 2px dashed var(--brand);
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+}
+
+.file-input:hover {
+    background-color: rgba(79, 138, 239, 0.05);
+    border-color: var(--brand-hover);
+}
+
+.file-input::file-selector-button {
+    background-color: var(--brand);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    margin-right: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.file-input::file-selector-button:hover {
+    background-color: var(--brand-hover);
+}
+
+/* Hide the clear checkbox and its label - Multiple selectors for comprehensive coverage */
+input[type="checkbox"][name*="clear"],
+label[for*="clear"],
+input[type="checkbox"][id*="clear"],
+input[type="checkbox"][name*="task_image-clear"],
+label[for*="task_image-clear"],
+input[type="checkbox"][id*="task_image-clear"] {
+    display: none !important;
+}
+
+/* Hide any clear-related elements in clearable file input */
+.clearable-file-input input[type="checkbox"],
+.clearable-file-input label,
+.file-input input[type="checkbox"],
+.file-input label {
+    display: none !important;
+}
+
+/* Hide the "Currently:" text and clear checkbox container */
+.file-input .clearable-file-input > div:first-child,
+.file-input .clearable-file-input > p:first-child {
+    display: none !important;
+}
+
+/* Style the file input container */
+.file-input .clearable-file-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Settings Page Styles */
+.current-info {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--brand);
+}
+
+.current-info h3 {
+    margin-top: 0;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.current-info-grid {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.current-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.current-info-label {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.current-info-value {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Additional clear checkbox hiding rules */
+input[name*="clear"] {
+    display: none !important;
+}
+
+label[for*="clear"] {
+    display: none !important;
+}
+
+/* Hide the entire clear section */
+.clearable-file-input > div:first-child {
+    display: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+.todo-container { margin: 0; padding: 0; }
+.add-task-form { border-radius: 0; }
+.tasks-container { padding: 1.5rem; }
+}

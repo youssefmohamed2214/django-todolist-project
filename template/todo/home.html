@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo Home</title>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/todo.css' %}" />
+  <!-- App-scoped overrides for Todo UI -->
+  <link rel="stylesheet" href="{% static 'css/todo-overrides.css' %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  {% include 'parts/navbar.html' %}
+    <div class="todo-container">
+      <!-- Add Task Form -->
+      <section class="add-task-form" aria-labelledby="add-task-title">
+        <h2 id="add-task-title">Add Task</h2>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% if form.non_field_errors %}
+            <ul class="errorlist">{% for err in form.non_field_errors %}<li>{{ err }}</li>{% endfor %}</ul>
+          {% endif %}
+
+          {% for field in form %}
+            <div class="form-group">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% if field.errors %}
+                <ul class="errorlist">{% for err in field.errors %}<li>{{ err }}</li>{% endfor %}</ul>
+              {% endif %}
+              {% if field.help_text %}
+                <small class="helptext">{{ field.help_text }}</small>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+          <button type="submit">Add</button>
+        </form>
+      </section>
+
+      <!-- Tasks List -->
+      <div class="tasks-container">
+        {% if tasks %}
+          {% for task in tasks %}
+            <div class="task-card {% if task.complete %}completed{% endif %}">
+              <div class="task-header">
+                <h3 class="task-title">{{ task.title }}</h3>
+                <span class="task-status {% if task.complete %}completed{% else %}pending{% endif %}">
+                  {% if task.complete %}✓ Completed{% else %}⏳ Pending{% endif %}
+                </span>
+              </div>
+
+              {% if task.task_image %}
+                <img src="{{ task.task_image.url }}" alt="Task image" class="task-image" />
+              {% else %}
+                <div class="no-image-placeholder">📷 No image uploaded</div>
+              {% endif %}
+
+              <!-- Task metadata: created date and optional due date -->
+              <div class="task-meta">
+                <div class="meta-item created">
+                  <span class="meta-label">Created:</span>
+                  <span class="meta-value">{{ task.created_at|date:"M j, Y, g:i a" }}</span>
+                </div>
+                {% if task.due_date %}
+                <div class="meta-item due">
+                  <span class="meta-label">Due:</span>
+                  <span class="meta-value">{{ task.due_date|date:"M j, Y" }}</span>
+                </div>
+                {% endif %}
+              </div>
+
+              <div class="task-actions">
+                <a href="{% url 'edit_task' task.id %}" class="btn btn-sm btn-success">✎ Edit</a>
+                <a href="{% url 'delete_task' task.id %}" class="btn btn-sm btn-danger">🗑️ Delete</a>
+                <a href="{% url 'complete_task' task.id %}" class="btn btn-sm {% if task.complete %}btn-warning{% else %}btn-success{% endif %}">
+                  {% if task.complete %}↩️ Undo{% else %}✅ Complete{% endif %}
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="empty-state">
+            <div class="empty-state-icon">📝</div>
+            <h3>No tasks yet!</h3>
+            <p>Create your first task using the form above to get started.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+            <!-- SweetAlert2 library -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- 
+        This is your custom script.
+        I have moved it outside the 'content' block. This is a critical change.
+        Now, it will be included on every page that extends this base template,
+        ensuring your notifications work everywhere, not just on the login page.
+        -->
+        <script>
+            let messageList = []
+
+            {% if messages %}
+                {% for message in messages %}
+                    messageList.push({
+                        "type":"{{message.tags}}",
+                        "message":"{{message|escapejs}}", // Added escapejs for security
+                    })
+                {% endfor %}
+            {% endif %}
+
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    messageList.push({
+                        "type":"error",
+                        "message":"{{error|escapejs}}", // Added escapejs for security
+                    })
+                {% endfor %}
+            {% endif %}
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+
+            messageList.forEach(message=>{
+                Toast.fire({
+                    icon: message.type,
+                    title: message.message
+                });
+            })
+        </script>
+  </body>
+</html>

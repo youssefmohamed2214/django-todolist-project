@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}TodoList App{% endblock %}</title>
+    <!-- Link to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Link to our main stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <!-- Link to todo-specific stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/todo.css' %}" />
+</head>
+<body>
+    {% include 'parts/navbar.html' %}
+    <!-- Additional content for specific pages -->
+    
+    {% block additional_content %}{% endblock %}
+    {% block content %}
+    <div class="container">
+            <div class="auth-container">
+                <h1 class="form-title">
+                    {% block form_title %}Welcome{% endblock %}
+                </h1>
+                <form method="post" enctype="multipart/form-data" {% block form_attrs %}{% endblock %} >
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group">
+                            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <p class="helptext">{{ field.help_text }}</p>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <ul class="errorlist">
+                                    <li>{{ error }}</li>
+                                </ul>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    {% block submit %}
+                        <button type="submit" class="btn btn-primary">
+                            Submit
+                        </button>
+                    {% endblock %}
+                </form>
+            </div>
+        </div>
+        {% endblock %}
+        
+        <!-- SweetAlert2 library -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- 
+        This is your custom script.
+        I have moved it outside the 'content' block. This is a critical change.
+        Now, it will be included on every page that extends this base template,
+        ensuring your notifications work everywhere, not just on the login page.
+        -->
+        <script>
+            let messageList = []
+
+            {% if messages %}
+                {% for message in messages %}
+                    messageList.push({
+                        "type":"{{message.tags}}",
+                        "message":"{{message|escapejs}}", // Added escapejs for security
+                    })
+                {% endfor %}
+            {% endif %}
+
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    messageList.push({
+                        "type":"error",
+                        "message":"{{error|escapejs}}", // Added escapejs for security
+                    })
+                {% endfor %}
+            {% endif %}
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+
+            messageList.forEach(message=>{
+                Toast.fire({
+                    icon: message.type,
+                    title: message.message
+                });
+            })
+        </script>
+    </body>
+</html>

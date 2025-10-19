@@ -1,0 +1,104 @@
+/* Scoped overrides for Todo UI placed in app static folder */
+
+/* Improve task card image appearance */
+.task-card .task-image {
+  height: 240px;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.02) contrast(1.02);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Ensure metadata sits neatly under the image */
+.task-card .task-meta {
+  padding: 0.75rem 1.25rem;
+  background-color: #f9fafb;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+}
+
+.task-card .meta-item {
+  display: flex;
+  gap: 0.35rem;
+  align-items: baseline;
+  font-size: 0.92rem;
+}
+.task-card .meta-label {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+.task-card .meta-value {
+  color: var(--text-primary);
+}
+
+/* If only one meta item is present, span full width */
+.task-card .task-meta:has(.meta-item:last-child:nth-child(1)) {
+  grid-template-columns: 1fr;
+}
+
+/* Style for datetime-local input in Add Task form */
+.add-task-form input[type="datetime-local"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  transition: box-shadow 160ms ease, border-color 160ms ease;
+  font-size: 1rem;
+}
+
+.add-task-form input[type="datetime-local"]:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(79, 138, 239, 0.15);
+}
+
+/* Small hint below datetime input */
+.add-task-form .helptext { /* reuse existing class safely */
+  margin-top: 0.35rem;
+}
+
+/* Form actions container for consistent button alignment */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Secondary button styling */
+.btn-secondary {
+  background-color: #6c757d;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Primary button styling consistency */
+.btn-primary {
+  background-color: var(--brand);
+}
+
+/* Apply datetime styling to all forms, not just add-task-form */
+input[type="datetime-local"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  transition: box-shadow 160ms ease, border-color 160ms ease;
+  font-size: 1rem;
+}
+
+input[type="datetime-local"]:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(79, 138, 239, 0.15);
+}
